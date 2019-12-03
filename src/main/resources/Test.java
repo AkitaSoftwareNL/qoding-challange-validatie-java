@@ -18,11 +18,6 @@ public class TestStuff {
 
     @Test
     void Test2() {
-        Assertions.assertTrue(sut.equals("2", "1"));
-    }
-
-    @Test
-    void Test3() {
-        Assertions.assertTrue(sut.equals("1", "2"));
+        Assertions.assertTrue(sut.equals("1", "NOT 1"));
     }
 }

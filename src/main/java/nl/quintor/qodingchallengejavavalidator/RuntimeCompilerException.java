@@ -1,4 +1,4 @@
-package nl.brighton;
+package nl.quintor.qodingchallengejavavalidator;
 
 public class RuntimeCompilerException extends RuntimeException {
     public RuntimeCompilerException() {
