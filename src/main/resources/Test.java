@@ -2,7 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class TestStuff {
+public class TestCode {
 
     private Code sut;
 
@@ -21,3 +21,14 @@ public class TestStuff {
         Assertions.assertTrue(sut.equals("1", "NOT 1"));
     }
 }
+
+
+
+
+
+
+
+
+
+
+
