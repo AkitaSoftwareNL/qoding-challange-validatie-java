@@ -13,11 +13,11 @@ public class TestCode {
 
     @Test
     void Test1() {
-        Assertions.assertTrue(sut.equals("1", "1"));
+        Assertions.assertTrue(sut.equals(1, 1));
     }
 
     @Test
     void Test2() {
-        Assertions.assertTrue(sut.equals("2", "2"));
+        Assertions.assertTrue(sut.equals(2, 2));
     }
 }

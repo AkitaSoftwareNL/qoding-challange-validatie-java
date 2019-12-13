@@ -25,7 +25,6 @@ public class CompilerResource {
             method = RequestMethod.POST
     )
     public ResponseEntity getTestResult(@RequestBody CodingQuestionDTO codingQuestionDTO) throws CanNotCompileException {
-        System.out.println(codingQuestionDTO);
         return ResponseEntity.ok().body(compilerService.runTests(codingQuestionDTO));
     }
 

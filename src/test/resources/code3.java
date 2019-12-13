@@ -1,5 +1,5 @@
 public class Code {
-    public static boolean equals(String a, String b) {
+    public static boolean equals(int a, int b) {
         return a == b;
     }
 }

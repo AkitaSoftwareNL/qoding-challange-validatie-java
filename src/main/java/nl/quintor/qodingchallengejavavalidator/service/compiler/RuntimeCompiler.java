@@ -18,7 +18,6 @@ import java.util.Map;
  * Utility class for compiling classes whose source code is given as
  * strings, in-memory, at runtime, using the JavaCompiler tools.
  */
-@Service
 public class RuntimeCompiler implements Compiler {
     /**
      * The Java Compiler

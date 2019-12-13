@@ -39,7 +39,7 @@ class CompilerServiceImplTest {
     }
 
     @Test
-    void runTestsThrows() {
+    void runTestsThrowsCanNotCompileException() {
         Mockito.when(mockedCompiler.compile()).thenThrow(RuntimeCompilerException.class);
         Assertions.assertThrows(CanNotCompileException.class, () -> sut.runTests(new CodingQuestionDTO()));
     }
@@ -55,7 +55,7 @@ class CompilerServiceImplTest {
     }
 
     @Test
-    void canCompileThrows() {
+    void canCompileThrowsCanNotCompileException() {
         Mockito.when(mockedCompiler.compile()).thenThrow(RuntimeCompilerException.class);
         Assertions.assertThrows(CanNotCompileException.class, () -> sut.canCompile(new CodingQuestionDTO()));
     }

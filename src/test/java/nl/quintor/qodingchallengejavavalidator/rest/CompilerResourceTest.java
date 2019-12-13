@@ -26,7 +26,7 @@ class CompilerResourceTest {
 
     @Test
     void getTestResultReturnsOKStatus() throws CanNotCompileException {
-        Mockito.when(mockedCompilerService.runTests(any())).thenReturn(new TestResultDTO(0, 0, 0));
+        Mockito.when(mockedCompilerService.runTests(any())).thenReturn(new TestResultDTO());
 
         var expected = HttpStatus.OK;
         var actualResult = sut.getTestResult(new CodingQuestionDTO());
