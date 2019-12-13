@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class CompilerResource {
 
-    @Autowired
     private CompilerService compilerService;
+
+    @Autowired
+    public void setCompilerService(CompilerService compilerService) {
+        this.compilerService = compilerService;
+    }
 
     @ResponseBody
     @RequestMapping(
@@ -21,6 +25,7 @@ public class CompilerResource {
             method = RequestMethod.POST
     )
     public ResponseEntity getTestResult(@RequestBody CodingQuestionDTO codingQuestionDTO) throws CanNotCompileException {
+        System.out.println(codingQuestionDTO);
         return ResponseEntity.ok().body(compilerService.runTests(codingQuestionDTO));
     }
 
@@ -34,7 +39,5 @@ public class CompilerResource {
         return ResponseEntity.ok().body(compilerService.canCompile(codingQuestionDTO));
     }
 
-    public void setCompilerService(CompilerService compilerService) {
-        this.compilerService = compilerService;
-    }
+
 }

@@ -3,16 +3,20 @@ package nl.quintor.qodingchallengejavavalidator.service;
 import nl.quintor.qodingchallengejavavalidator.dto.CodingQuestionDTO;
 import nl.quintor.qodingchallengejavavalidator.dto.TestResultDTO;
 import nl.quintor.qodingchallengejavavalidator.service.compiler.Compiler;
+import nl.quintor.qodingchallengejavavalidator.service.compiler.RuntimeCompiler;
 import nl.quintor.qodingchallengejavavalidator.service.compiler.UnitTester;
 import nl.quintor.qodingchallengejavavalidator.service.exception.CanNotCompileException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CompilerServiceImpl implements CompilerService {
 
-    @Autowired
-    private Compiler compiler;
+    private Compiler compiler = new RuntimeCompiler();
+
+    @Override
+    public void setCompiler(Compiler compiler) {
+        this.compiler = compiler;
+    }
 
     @Override
     public TestResultDTO runTests(CodingQuestionDTO codingQuestionDTO) throws CanNotCompileException {
@@ -29,6 +33,8 @@ public class CompilerServiceImpl implements CompilerService {
             }
         } catch (Exception e) {
             throw new CanNotCompileException(e);
+        } finally {
+            compiler.clear();
         }
     }
 
@@ -43,8 +49,4 @@ public class CompilerServiceImpl implements CompilerService {
         }
     }
 
-    @Override
-    public void setCompiler(Compiler compiler) {
-        this.compiler = compiler;
-    }
 }

@@ -28,12 +28,14 @@ class CompilerServiceImplTest {
     }
 
     @Test
-    void canRuntTestsWithTestsID1() throws CanNotCompileException {
+    void canRuntTestsWithTests() throws CanNotCompileException {
         sut.setCompiler(new RuntimeCompiler());
-        CodingQuestionDTO codingQuestionDTO = getTestData(1);
-        var expected = new TestResultDTO(2, 2, 0);
-        var actual = sut.runTests(codingQuestionDTO);
-        Assertions.assertEquals(expected, actual);
+        for (int i = 1; i <= 3; i++) {
+            CodingQuestionDTO codingQuestionDTO = getTestData(i);
+            var expected = new TestResultDTO(2, 2, 0);
+            var actual = sut.runTests(codingQuestionDTO);
+            Assertions.assertEquals(expected, actual);
+        }
     }
 
     @Test
@@ -43,11 +45,13 @@ class CompilerServiceImplTest {
     }
 
     @Test
-    void canCompileCodeWithID1() throws CanNotCompileException {
+    void canCompileCodeWith() throws CanNotCompileException {
         sut.setCompiler(new RuntimeCompiler());
-        CodingQuestionDTO codingQuestionDTO = getTestData(1);
-        var result = sut.canCompile(codingQuestionDTO);
-        Assertions.assertTrue(result);
+        for (int i = 1; i <= 3; i++) {
+            CodingQuestionDTO codingQuestionDTO = getTestData(1);
+            var result = sut.canCompile(codingQuestionDTO);
+            Assertions.assertTrue(result);
+        }
     }
 
     @Test

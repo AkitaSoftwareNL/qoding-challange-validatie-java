@@ -23,29 +23,28 @@ public class RuntimeCompiler implements Compiler {
     /**
      * The Java Compiler
      */
-    private final JavaCompiler javaCompiler;
+    private JavaCompiler javaCompiler;
 
     /**
      * The mapping from fully qualified class names to the class data
      */
-    private final Map<String, byte[]> classData;
+    private Map<String, byte[]> classData;
 
     /**
      * A class loader that will look up classes in the {@link #classData}
      */
-    private final MapClassLoader mapClassLoader;
+    private MapClassLoader mapClassLoader;
 
     /**
      * The JavaFileManager that will handle the compiled classes, and
      * eventually put them into the {@link #classData}
      */
-    private final ClassDataFileManager classDataFileManager;
+    private ClassDataFileManager classDataFileManager;
 
     /**
      * The compilation units for the next compilation task
      */
-    private final List<JavaFileObject> compilationUnits;
-
+    private List<JavaFileObject> compilationUnits;
 
     /**
      * Creates a new RuntimeCompiler
@@ -83,6 +82,16 @@ public class RuntimeCompiler implements Compiler {
                 new MemoryJavaSourceFileObject(javaFileName, code);
         compilationUnits.add(javaFileObject);
         return className;
+    }
+
+    @Override
+    public void clear() {
+        this.classData = new LinkedHashMap<String, byte[]>();
+        this.mapClassLoader = new MapClassLoader();
+        this.classDataFileManager =
+                new ClassDataFileManager(
+                        javaCompiler.getStandardFileManager(null, null, null));
+        this.compilationUnits = new ArrayList<JavaFileObject>();
     }
 
     public String addClass(String code) {
@@ -198,7 +207,6 @@ public class RuntimeCompiler implements Compiler {
             return new ClassDataOutputStream(className);
         }
     }
-
 
     /**
      * A JavaFileManager that manages the compiled classes by passing

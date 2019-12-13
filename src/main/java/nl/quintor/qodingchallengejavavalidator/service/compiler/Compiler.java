@@ -2,7 +2,7 @@ package nl.quintor.qodingchallengejavavalidator.service.compiler;
 
 public interface Compiler {
 
-
+    void clear();
 
     String addClass(String code);
 
