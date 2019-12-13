@@ -2,6 +2,8 @@ package nl.quintor.qodingchallengejavavalidator.dto;
 
 import org.junit.platform.launcher.listeners.TestExecutionSummary;
 
+import java.util.Objects;
+
 public class TestResultDTO {
     public int totalTests;
     public int totalTestsPassed;
@@ -47,5 +49,29 @@ public class TestResultDTO {
 
     public void setTotalTestsFailed(int totalTestsFailed) {
         this.totalTestsFailed = totalTestsFailed;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TestResultDTO that = (TestResultDTO) o;
+        return totalTests == that.totalTests &&
+                totalTestsPassed == that.totalTestsPassed &&
+                totalTestsFailed == that.totalTestsFailed;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(totalTests, totalTestsPassed, totalTestsFailed);
+    }
+
+    @Override
+    public String toString() {
+        return "TestResultDTO{" +
+                "totalTests=" + totalTests +
+                ", totalTestsPassed=" + totalTestsPassed +
+                ", totalTestsFailed=" + totalTestsFailed +
+                '}';
     }
 }

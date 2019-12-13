@@ -1,7 +1,9 @@
 package nl.quintor.qodingchallengejavavalidator.service;
 
 import nl.quintor.qodingchallengejavavalidator.dto.CodingQuestionDTO;
+import nl.quintor.qodingchallengejavavalidator.dto.TestResultDTO;
 import nl.quintor.qodingchallengejavavalidator.service.compiler.Compiler;
+import nl.quintor.qodingchallengejavavalidator.service.compiler.RuntimeCompiler;
 import nl.quintor.qodingchallengejavavalidator.service.compiler.exception.RuntimeCompilerException;
 import nl.quintor.qodingchallengejavavalidator.service.exception.CanNotCompileException;
 import org.junit.jupiter.api.Assertions;
@@ -26,27 +28,40 @@ class CompilerServiceImplTest {
     }
 
     @Test
-    void canRuntTests() {
-
+    void canRuntTestsWithTestsID1() throws CanNotCompileException {
+        sut.setCompiler(new RuntimeCompiler());
+        CodingQuestionDTO codingQuestionDTO = getTestData(1);
+        var expected = new TestResultDTO(2, 2, 0);
+        var actual = sut.runTests(codingQuestionDTO);
+        Assertions.assertEquals(expected, actual);
     }
 
     @Test
     void runTestsThrows() {
         Mockito.when(mockedCompiler.compile()).thenThrow(RuntimeCompilerException.class);
-
         Assertions.assertThrows(CanNotCompileException.class, () -> sut.runTests(new CodingQuestionDTO()));
     }
 
     @Test
-    void canCompileCode() {
-
+    void canCompileCodeWithID1() throws CanNotCompileException {
+        sut.setCompiler(new RuntimeCompiler());
+        CodingQuestionDTO codingQuestionDTO = getTestData(1);
+        var result = sut.canCompile(codingQuestionDTO);
+        Assertions.assertTrue(result);
     }
 
     @Test
     void canCompileThrows() {
         Mockito.when(mockedCompiler.compile()).thenThrow(RuntimeCompilerException.class);
-
         Assertions.assertThrows(CanNotCompileException.class, () -> sut.canCompile(new CodingQuestionDTO()));
+    }
+
+    private CodingQuestionDTO getTestData(int id) {
+        try {
+            return new CodingQuestionDTO(getFile("src/test/resources/code" + id + ".java"), getFile("src/test/resources/testCode" + id + ".java"));
+        } catch (IOException e) {
+            throw new RuntimeException(String.format("NO FILE WITH ID %d", id));
+        }
     }
 
     private String getFile(String path) throws IOException {

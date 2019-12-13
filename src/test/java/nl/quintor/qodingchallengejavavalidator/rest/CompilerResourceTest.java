@@ -35,6 +35,20 @@ class CompilerResourceTest {
     }
 
     @Test
+    void getTestResultThrowsCanNotCompileException() throws CanNotCompileException {
+        Mockito.when(mockedCompilerService.runTests(any())).thenThrow(CanNotCompileException.class);
+
+        Assertions.assertThrows(CanNotCompileException.class, () -> sut.getTestResult(new CodingQuestionDTO()));
+    }
+
+    @Test
+    void getTestResultCallsCorrectMethod() throws CanNotCompileException {
+        Mockito.when(mockedCompilerService.runTests(any())).thenReturn(new TestResultDTO());
+        sut.getTestResult(new CodingQuestionDTO());
+        Mockito.verify(mockedCompilerService).runTests(new CodingQuestionDTO());
+    }
+
+    @Test
     void canCompileCodeReturnsOKStatus() throws CanNotCompileException {
         Mockito.when(mockedCompilerService.canCompile(any())).thenReturn(true);
 
@@ -53,9 +67,11 @@ class CompilerResourceTest {
     }
 
     @Test
-    void getTestResultThrowsCanNotCompileException() throws CanNotCompileException {
-        Mockito.when(mockedCompilerService.runTests(any())).thenThrow(CanNotCompileException.class);
-
-        Assertions.assertThrows(CanNotCompileException.class, () -> sut.getTestResult(new CodingQuestionDTO()));
+    void canCompileCodeCallsCorrectMethod() throws CanNotCompileException {
+        Mockito.when(mockedCompilerService.canCompile(any())).thenReturn(true);
+        sut.canCompileCode(new CodingQuestionDTO());
+        Mockito.verify(mockedCompilerService).canCompile(new CodingQuestionDTO());
     }
+
+
 }
