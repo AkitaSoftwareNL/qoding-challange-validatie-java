@@ -33,7 +33,7 @@ public class CompilerResource {
     @ResponseBody
     @RequestMapping(
             consumes = MediaType.APPLICATION_JSON_VALUE,
-            path = "/validator/java/can-compile",
+            path = "/validator/java/compile",
             method = RequestMethod.POST
     )
     public ResponseEntity canCompileCode(@RequestBody CodingQuestionDTO codingQuestionDTO) throws CanNotCompileException {
