@@ -28,7 +28,7 @@ class CompilerServiceImplTest {
     }
 
     @Test
-    void canRuntTestsWithTests() throws CanNotCompileException {
+    void canRunTestsWithTestsCode() throws CanNotCompileException {
         sut.setCompiler(new RuntimeCompiler());
         for (int i = 1; i <= 3; i++) {
             CodingQuestionDTO codingQuestionDTO = getTestData(i);
@@ -45,7 +45,7 @@ class CompilerServiceImplTest {
     }
 
     @Test
-    void canCompileCodeWith() throws CanNotCompileException {
+    void canCompileCodeWithTestCode() throws CanNotCompileException {
         sut.setCompiler(new RuntimeCompiler());
         for (int i = 1; i <= 3; i++) {
             CodingQuestionDTO codingQuestionDTO = getTestData(1);

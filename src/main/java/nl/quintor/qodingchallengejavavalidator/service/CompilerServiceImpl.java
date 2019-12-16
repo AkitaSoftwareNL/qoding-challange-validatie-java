@@ -6,12 +6,14 @@ import nl.quintor.qodingchallengejavavalidator.service.compiler.Compiler;
 import nl.quintor.qodingchallengejavavalidator.service.compiler.RuntimeCompiler;
 import nl.quintor.qodingchallengejavavalidator.service.compiler.UnitTester;
 import nl.quintor.qodingchallengejavavalidator.service.exception.CanNotCompileException;
+import org.apache.commons.lang.time.StopWatch;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CompilerServiceImpl implements CompilerService {
 
     private Compiler compiler = new RuntimeCompiler();
+
 
     @Override
     public void setCompiler(Compiler compiler) {
@@ -24,15 +26,18 @@ public class CompilerServiceImpl implements CompilerService {
             compiler.addClass(codingQuestionDTO.getCode());
             String testCodename = compiler.addClass(codingQuestionDTO.getTest());
             if (compiler.compile()) {
+                StopWatch stopWatch = new StopWatch();
                 Class<?> testCode = compiler.getCompiledClass(testCodename);
                 UnitTester tester = new UnitTester();
-                tester.run(testCode);
+                tester.setClassToTest(testCode);
+                tester.run();
+
                 return new TestResultDTO(tester.listener.getSummary());
             } else {
                 throw new CanNotCompileException();
             }
         } catch (Exception e) {
-            throw new CanNotCompileException(e);
+            throw new CanNotCompileException();
         } finally {
             compiler.clear();
         }
@@ -45,7 +50,9 @@ public class CompilerServiceImpl implements CompilerService {
             compiler.addClass(codingQuestionDTO.getTest());
             return compiler.compile();
         } catch (Exception e) {
-            throw new CanNotCompileException(e);
+            throw new CanNotCompileException(e.getMessage());
+        } finally {
+            compiler.clear();
         }
     }
 

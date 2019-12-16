@@ -1,19 +1,20 @@
 package nl.quintor.qodingchallengejavavalidator.service.exception;
 
-public class CanNotCompileException extends Exception {
+import nl.quintor.qodingchallengejavavalidator.rest.customexception.CustomException;
+
+public class CanNotCompileException extends CustomException {
+
+    public static final String MESSAGE = "Can not compile code";
+
     public CanNotCompileException() {
-        super("Cant compile code");
+        super(MESSAGE);
     }
 
-    public CanNotCompileException(String message) {
-        super(message);
+    public CanNotCompileException(String details) {
+        super(MESSAGE, details);
     }
 
-    public CanNotCompileException(Throwable cause) {
-        super("Cant compile code", cause);
-    }
-
-    public CanNotCompileException(String message, Throwable cause) {
-        super(message, cause);
+    public CanNotCompileException(String details, String nextActions) {
+        super(MESSAGE, details, nextActions);
     }
 }

@@ -49,6 +49,17 @@ class CompilerResourceTest {
     }
 
     @Test
+    void getTestResultReturnsCorrectObject() throws CanNotCompileException {
+        Mockito.when(mockedCompilerService.runTests(any())).thenReturn(new TestResultDTO());
+
+        var result = sut.getTestResult(new CodingQuestionDTO());
+        var expected = new TestResultDTO();
+
+        Assertions.assertEquals(expected, result.getBody());
+    }
+
+
+    @Test
     void canCompileCodeReturnsOKStatus() throws CanNotCompileException {
         Mockito.when(mockedCompilerService.canCompile(any())).thenReturn(true);
 

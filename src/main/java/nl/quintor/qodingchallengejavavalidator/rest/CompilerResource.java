@@ -1,6 +1,7 @@
 package nl.quintor.qodingchallengejavavalidator.rest;
 
 import nl.quintor.qodingchallengejavavalidator.dto.CodingQuestionDTO;
+import nl.quintor.qodingchallengejavavalidator.dto.TestResultDTO;
 import nl.quintor.qodingchallengejavavalidator.service.CompilerService;
 import nl.quintor.qodingchallengejavavalidator.service.exception.CanNotCompileException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,8 @@ public class CompilerResource {
             path = "/validator/java/test",
             method = RequestMethod.POST
     )
-    public ResponseEntity getTestResult(@RequestBody CodingQuestionDTO codingQuestionDTO) throws CanNotCompileException {
+    public ResponseEntity<TestResultDTO> getTestResult(@RequestBody CodingQuestionDTO codingQuestionDTO) throws CanNotCompileException {
+
         return ResponseEntity.ok().body(compilerService.runTests(codingQuestionDTO));
     }
 
