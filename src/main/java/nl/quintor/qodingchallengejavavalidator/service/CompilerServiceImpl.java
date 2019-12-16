@@ -6,14 +6,18 @@ import nl.quintor.qodingchallengejavavalidator.service.compiler.Compiler;
 import nl.quintor.qodingchallengejavavalidator.service.compiler.RuntimeCompiler;
 import nl.quintor.qodingchallengejavavalidator.service.compiler.UnitTester;
 import nl.quintor.qodingchallengejavavalidator.service.exception.CanNotCompileException;
-import org.apache.commons.lang.time.StopWatch;
+import nl.quintor.qodingchallengejavavalidator.service.exception.ExecutionTimeoutException;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 @Service
 public class CompilerServiceImpl implements CompilerService {
 
     private Compiler compiler = new RuntimeCompiler();
-
 
     @Override
     public void setCompiler(Compiler compiler) {
@@ -21,25 +25,26 @@ public class CompilerServiceImpl implements CompilerService {
     }
 
     @Override
-    public TestResultDTO runTests(CodingQuestionDTO codingQuestionDTO) throws CanNotCompileException {
+    public TestResultDTO runTests(CodingQuestionDTO codingQuestionDTO) throws CanNotCompileException, ExecutionTimeoutException {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
         try {
             compiler.addClass(codingQuestionDTO.getCode());
             String testCodename = compiler.addClass(codingQuestionDTO.getTest());
             if (compiler.compile()) {
-                StopWatch stopWatch = new StopWatch();
                 Class<?> testCode = compiler.getCompiledClass(testCodename);
-                UnitTester tester = new UnitTester();
-                tester.setClassToTest(testCode);
-                tester.run();
-
-                return new TestResultDTO(tester.listener.getSummary());
+                UnitTester tester = new UnitTester(testCode);
+                var future = executorService.submit(tester);
+                return (TestResultDTO) future.get(codingQuestionDTO.getMaxExecutionTime(), TimeUnit.SECONDS);
             } else {
-                throw new CanNotCompileException();
+                throw new Exception();
             }
+        } catch (TimeoutException e) {
+            throw new ExecutionTimeoutException();
         } catch (Exception e) {
-            throw new CanNotCompileException();
+            throw new CanNotCompileException(e.getMessage());
         } finally {
             compiler.clear();
+            executorService.shutdownNow();
         }
     }
 

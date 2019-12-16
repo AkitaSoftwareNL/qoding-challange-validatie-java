@@ -1,32 +1,34 @@
 package nl.quintor.qodingchallengejavavalidator.service.compiler;
 
+import nl.quintor.qodingchallengejavavalidator.dto.TestResultDTO;
 import org.junit.platform.launcher.Launcher;
 import org.junit.platform.launcher.LauncherDiscoveryRequest;
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
 import org.junit.platform.launcher.core.LauncherFactory;
 import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
 
+import java.util.concurrent.Callable;
+
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
 
-public class UnitTester implements Runnable {
+public class UnitTester implements Callable {
 
-    public SummaryGeneratingListener listener = new SummaryGeneratingListener();
+
+    private SummaryGeneratingListener listener = new SummaryGeneratingListener();
     private Class<?> classToTest;
 
-    public void setClassToTest(Class<?> classToTest) {
+    public UnitTester(Class<?> classToTest) {
         this.classToTest = classToTest;
     }
 
     @Override
-    public void run() {
-        this.run(classToTest);
-    }
-
-    public void run(Class<?> cl) {
+    public TestResultDTO call() {
         LauncherDiscoveryRequest request = LauncherDiscoveryRequestBuilder.request().
-                selectors(selectClass(cl)).build();
+                selectors(selectClass(this.classToTest)).build();
         Launcher launcher = LauncherFactory.create();
         launcher.registerTestExecutionListeners(listener);
         launcher.execute(request);
+        return new TestResultDTO(this.listener.getSummary());
+
     }
 }

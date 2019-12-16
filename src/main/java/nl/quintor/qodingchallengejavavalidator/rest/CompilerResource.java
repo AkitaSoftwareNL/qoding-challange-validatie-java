@@ -4,6 +4,7 @@ import nl.quintor.qodingchallengejavavalidator.dto.CodingQuestionDTO;
 import nl.quintor.qodingchallengejavavalidator.dto.TestResultDTO;
 import nl.quintor.qodingchallengejavavalidator.service.CompilerService;
 import nl.quintor.qodingchallengejavavalidator.service.exception.CanNotCompileException;
+import nl.quintor.qodingchallengejavavalidator.service.exception.ExecutionTimeoutException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,7 @@ public class CompilerResource {
             path = "/validator/java/test",
             method = RequestMethod.POST
     )
-    public ResponseEntity<TestResultDTO> getTestResult(@RequestBody CodingQuestionDTO codingQuestionDTO) throws CanNotCompileException {
-
+    public ResponseEntity<TestResultDTO> getTestResult(@RequestBody CodingQuestionDTO codingQuestionDTO) throws CanNotCompileException, ExecutionTimeoutException {
         return ResponseEntity.ok().body(compilerService.runTests(codingQuestionDTO));
     }
 
