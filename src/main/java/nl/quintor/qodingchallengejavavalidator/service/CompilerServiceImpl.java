@@ -2,11 +2,14 @@ package nl.quintor.qodingchallengejavavalidator.service;
 
 import nl.quintor.qodingchallengejavavalidator.dto.CodingQuestionDTO;
 import nl.quintor.qodingchallengejavavalidator.dto.TestResultDTO;
+import nl.quintor.qodingchallengejavavalidator.rest.exceptionhandler.RestResponseEntityExceptionHandler;
 import nl.quintor.qodingchallengejavavalidator.service.compiler.Compiler;
 import nl.quintor.qodingchallengejavavalidator.service.compiler.RuntimeCompiler;
 import nl.quintor.qodingchallengejavavalidator.service.compiler.UnitTester;
 import nl.quintor.qodingchallengejavavalidator.service.exception.CanNotCompileException;
 import nl.quintor.qodingchallengejavavalidator.service.exception.ExecutionTimeoutException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.ExecutorService;
@@ -16,6 +19,9 @@ import java.util.concurrent.TimeoutException;
 
 @Service
 public class CompilerServiceImpl implements CompilerService {
+
+    private final Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
+
 
     private Compiler compiler = new RuntimeCompiler();
 
@@ -39,8 +45,11 @@ public class CompilerServiceImpl implements CompilerService {
                 throw new Exception();
             }
         } catch (TimeoutException e) {
+            logger.error(e.getMessage());
             throw new ExecutionTimeoutException();
         } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
             throw new CanNotCompileException(e.getMessage());
         } finally {
             compiler.clear();
