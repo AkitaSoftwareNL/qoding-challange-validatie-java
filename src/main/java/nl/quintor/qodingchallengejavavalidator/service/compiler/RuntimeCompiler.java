@@ -1,7 +1,5 @@
 package nl.quintor.qodingchallengejavavalidator.service.compiler;
 
-import org.springframework.stereotype.Service;
-
 import javax.tools.*;
 import javax.tools.JavaCompiler.CompilationTask;
 import javax.tools.JavaFileObject.Kind;
