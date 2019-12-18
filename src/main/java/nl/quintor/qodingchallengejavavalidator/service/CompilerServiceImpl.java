@@ -48,7 +48,6 @@ public class CompilerServiceImpl implements CompilerService {
             logger.error(e.getMessage());
             throw new ExecutionTimeoutException();
         } catch (Exception e) {
-            e.printStackTrace();
             logger.error(e.getMessage());
             throw new CanNotCompileException(e.getMessage());
         } finally {
