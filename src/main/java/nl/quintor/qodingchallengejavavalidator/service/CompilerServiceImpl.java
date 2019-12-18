@@ -44,10 +44,10 @@ public class CompilerServiceImpl implements CompilerService {
                 throw new CanNotCompileException();
             }
         } catch (TimeoutException e) {
-            logger.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
             throw new ExecutionTimeoutException();
         } catch (Exception e) {
-            logger.error(e.getMessage(), e);
+            LOGGER.error(e.getMessage(), e);
             throw new CanNotCompileException(e.getMessage());
         } finally {
             compiler.clear();
