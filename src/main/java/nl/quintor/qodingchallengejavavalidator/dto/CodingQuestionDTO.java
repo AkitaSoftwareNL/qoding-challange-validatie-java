@@ -3,11 +3,14 @@ package nl.quintor.qodingchallengejavavalidator.dto;
 import java.util.Objects;
 
 public class CodingQuestionDTO {
-    private long maxExecutionTime;
-    private String code;
-    private String test;
+    private final long maxExecutionTime;
+    private final String code;
+    private final String test;
 
     public CodingQuestionDTO() {
+        this.maxExecutionTime = 0;
+        this.code = "";
+        this.test = "";
     }
 
     public CodingQuestionDTO(long maxExecutionTime, String code, String test) {
@@ -20,24 +23,13 @@ public class CodingQuestionDTO {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public long getMaxExecutionTime() {
         return Math.abs(maxExecutionTime);
     }
 
-    public void setMaxExecutionTime(long maxExecutionTime) {
-        this.maxExecutionTime = maxExecutionTime;
-    }
-
     public String getTest() {
         return test;
-    }
-
-    public void setTest(String test) {
-        this.test = test;
     }
 
     @Override

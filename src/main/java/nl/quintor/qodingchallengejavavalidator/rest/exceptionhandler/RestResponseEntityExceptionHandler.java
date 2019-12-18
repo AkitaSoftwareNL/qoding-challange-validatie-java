@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private final Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
 
     @ExceptionHandler({
             CanNotCompileException.class
@@ -26,7 +26,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 new JSONCustomExceptionSchema(
                         ex.getMessage(), ex.getDetails(), ex.getNextActions(), ex.getSupport()
                 );
-        logger.error(ex.getMessage(), ex.getDetails(), ex.fillInStackTrace().toString());
+        LOGGER.error(ex.getMessage(), ex.getDetails(), ex.fillInStackTrace().toString());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.EXPECTATION_FAILED);
     }
 
@@ -38,7 +38,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
                 new JSONCustomExceptionSchema(
                         ex.getMessage(), ex.getDetails(), ex.getNextActions(), ex.getSupport()
                 );
-        logger.error(ex.getMessage(), ex.getDetails(), ex.fillInStackTrace().toString());
+        LOGGER.error(ex.getMessage(), ex.getDetails(), ex.fillInStackTrace().toString());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.REQUEST_TIMEOUT);
     }
 }
