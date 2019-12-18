@@ -20,7 +20,7 @@ import java.util.concurrent.TimeoutException;
 @Service
 public class CompilerServiceImpl implements CompilerService {
 
-    private static final Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
 
     private Compiler compiler = new RuntimeCompiler();
 
@@ -57,11 +57,16 @@ public class CompilerServiceImpl implements CompilerService {
 
     @Override
     public boolean canCompile(CodingQuestionDTO codingQuestionDTO) {
-        compiler.addClass(codingQuestionDTO.getCode());
-        compiler.addClass(codingQuestionDTO.getTest());
-        var result = compiler.compile();
-        compiler.clear();
-        return result;
+        try {
+            compiler.addClass(codingQuestionDTO.getCode());
+            compiler.addClass(codingQuestionDTO.getTest());
+            return compiler.compile();
+        } catch (Exception e) {
+            LOGGER.warn(e.getMessage(), e);
+            throw new CanNotCompileException(e.getMessage());
+        } finally {
+            compiler.clear();
+        }
     }
 
 }
