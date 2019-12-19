@@ -8,18 +8,6 @@ public class CustomException extends RuntimeException {
     private final String nextActions;
     private final String support;
 
-    protected CustomException() {
-        this("");
-    }
-
-    protected CustomException(String message) {
-        this(message, "");
-    }
-
-    protected CustomException(String message, String details) {
-        this(message, details, "");
-    }
-
     protected CustomException(String message, String details, String nextActions) {
         this.message = message;
         this.details = details;
