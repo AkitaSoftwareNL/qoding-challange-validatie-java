@@ -114,18 +114,8 @@ public class RuntimeCompiler implements Compiler {
                         compilationUnits);
         boolean success = task.call();
         compilationUnits.clear();
-        for (Diagnostic<?> diagnostic : diagnosticsCollector.getDiagnostics()) {
-            System.out.println(
-                    diagnostic.getKind() + " : " +
-                            diagnostic.getMessage(null));
-            System.out.println(
-                    "Line " + diagnostic.getLineNumber() +
-                            " of " + diagnostic.getSource());
-            System.out.println();
-        }
         return success;
     }
-
 
     /**
      * Obtain a class that was previously compiled by adding it with

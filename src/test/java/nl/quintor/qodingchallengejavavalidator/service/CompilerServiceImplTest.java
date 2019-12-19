@@ -4,7 +4,6 @@ import nl.quintor.qodingchallengejavavalidator.dto.CodingQuestionDTO;
 import nl.quintor.qodingchallengejavavalidator.dto.TestResultDTO;
 import nl.quintor.qodingchallengejavavalidator.service.compiler.Compiler;
 import nl.quintor.qodingchallengejavavalidator.service.compiler.RuntimeCompiler;
-import nl.quintor.qodingchallengejavavalidator.service.compiler.exception.RuntimeCompilerException;
 import nl.quintor.qodingchallengejavavalidator.service.exception.CanNotCompileException;
 import nl.quintor.qodingchallengejavavalidator.service.exception.ExecutionTimeoutException;
 import org.junit.jupiter.api.Assertions;
@@ -42,7 +41,7 @@ class CompilerServiceImplTest {
 
     @Test
     void runTestsThrowsCanNotCompileException() {
-        Mockito.when(mockedCompiler.compile()).thenThrow(RuntimeCompilerException.class);
+        Mockito.when(mockedCompiler.compile()).thenThrow(RuntimeException.class);
         Assertions.assertThrows(CanNotCompileException.class, () -> sut.runTests(new CodingQuestionDTO()));
     }
 
@@ -75,7 +74,7 @@ class CompilerServiceImplTest {
 
     @Test
     void canCompileThrowsCanNotCompileException() {
-        Mockito.when(mockedCompiler.compile()).thenThrow(RuntimeCompilerException.class);
+        Mockito.when(mockedCompiler.compile()).thenThrow(RuntimeException.class);
         Assertions.assertThrows(CanNotCompileException.class, () -> sut.canCompile(new CodingQuestionDTO()));
     }
 

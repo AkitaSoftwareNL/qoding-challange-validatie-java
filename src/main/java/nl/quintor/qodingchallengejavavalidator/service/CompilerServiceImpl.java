@@ -41,7 +41,7 @@ public class CompilerServiceImpl implements CompilerService {
                 var future = executorService.submit(tester);
                 return (TestResultDTO) future.get(codingQuestionDTO.getMaxExecutionTime(), TimeUnit.SECONDS);
             } else {
-                throw new CanNotCompileException();
+                throw new CanNotCompileException("Compilation Failed");
             }
         } catch (TimeoutException e) {
             LOGGER.error(e.getMessage(), e);
