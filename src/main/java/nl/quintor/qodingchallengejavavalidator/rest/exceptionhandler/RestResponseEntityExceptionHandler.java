@@ -10,35 +10,34 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private final Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
 
     @ExceptionHandler({
             CanNotCompileException.class
     })
-    public final ResponseEntity<Object> handleCustomExceptionExpectationFailed(CustomException ex, WebRequest webRequest) {
+    public final ResponseEntity<Object> handleCustomExceptionExpectationFailed(CustomException ex) {
         JSONCustomExceptionSchema exceptionResponse =
                 new JSONCustomExceptionSchema(
                         ex.getMessage(), ex.getDetails(), ex.getNextActions(), ex.getSupport()
                 );
-        logger.error(ex.getMessage(), ex.getDetails(), ex.fillInStackTrace().toString());
+        LOGGER.error(ex.getMessage(), ex.getDetails(), ex.fillInStackTrace().toString());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.EXPECTATION_FAILED);
     }
 
     @ExceptionHandler({
             ExecutionTimeoutException.class
     })
-    public final ResponseEntity<Object> handleCustomExceptionTimeOut(CustomException ex, WebRequest webRequest) {
+    public final ResponseEntity<Object> handleCustomExceptionTimeOut(CustomException ex) {
         JSONCustomExceptionSchema exceptionResponse =
                 new JSONCustomExceptionSchema(
                         ex.getMessage(), ex.getDetails(), ex.getNextActions(), ex.getSupport()
                 );
-        logger.error(ex.getMessage(), ex.getDetails(), ex.fillInStackTrace().toString());
+        LOGGER.error(ex.getMessage(), ex.getDetails(), ex.fillInStackTrace().toString());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.REQUEST_TIMEOUT);
     }
 }

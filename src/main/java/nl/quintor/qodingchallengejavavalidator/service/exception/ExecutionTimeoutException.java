@@ -7,11 +7,11 @@ public class ExecutionTimeoutException extends CustomException {
     private static final String MESSAGE = "Execution of script timed out";
 
     public ExecutionTimeoutException() {
-        super(MESSAGE);
+        this(MESSAGE);
     }
 
     public ExecutionTimeoutException(String details) {
-        super(MESSAGE, details);
+        this(MESSAGE, details);
     }
 
     public ExecutionTimeoutException(String details, String nextActions) {

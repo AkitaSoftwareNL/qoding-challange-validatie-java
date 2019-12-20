@@ -5,9 +5,9 @@ import org.junit.platform.launcher.listeners.TestExecutionSummary;
 import java.util.Objects;
 
 public class TestResultDTO {
-    public int totalTests;
-    public int totalTestsPassed;
-    public int totalTestsFailed;
+    private final int totalTests;
+    private final int totalTestsPassed;
+    private final int totalTestsFailed;
 
     public TestResultDTO() {
         this.totalTests = 0;
@@ -31,24 +31,12 @@ public class TestResultDTO {
         return totalTests;
     }
 
-    public void setTotalTests(int totalTests) {
-        this.totalTests = totalTests;
-    }
-
     public int getTotalTestsPassed() {
         return totalTestsPassed;
     }
 
-    public void setTotalTestsPassed(int totalTestsPassed) {
-        this.totalTestsPassed = totalTestsPassed;
-    }
-
     public int getTotalTestsFailed() {
         return totalTestsFailed;
-    }
-
-    public void setTotalTestsFailed(int totalTestsFailed) {
-        this.totalTestsFailed = totalTestsFailed;
     }
 
     @Override

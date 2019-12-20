@@ -20,8 +20,7 @@ import java.util.concurrent.TimeoutException;
 @Service
 public class CompilerServiceImpl implements CompilerService {
 
-    private final Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
 
     private Compiler compiler = new RuntimeCompiler();
 
@@ -31,7 +30,7 @@ public class CompilerServiceImpl implements CompilerService {
     }
 
     @Override
-    public TestResultDTO runTests(CodingQuestionDTO codingQuestionDTO) throws CanNotCompileException, ExecutionTimeoutException {
+    public TestResultDTO runTests(CodingQuestionDTO codingQuestionDTO) {
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         try {
             compiler.addClass(codingQuestionDTO.getCode());
@@ -42,14 +41,13 @@ public class CompilerServiceImpl implements CompilerService {
                 var future = executorService.submit(tester);
                 return (TestResultDTO) future.get(codingQuestionDTO.getMaxExecutionTime(), TimeUnit.SECONDS);
             } else {
-                throw new Exception();
+                throw new CanNotCompileException("Compilation Failed");
             }
         } catch (TimeoutException e) {
-            logger.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             throw new ExecutionTimeoutException();
         } catch (Exception e) {
-            e.printStackTrace();
-            logger.error(e.getMessage());
+            LOGGER.error(e.getMessage(), e);
             throw new CanNotCompileException(e.getMessage());
         } finally {
             compiler.clear();
@@ -58,12 +56,13 @@ public class CompilerServiceImpl implements CompilerService {
     }
 
     @Override
-    public boolean canCompile(CodingQuestionDTO codingQuestionDTO) throws CanNotCompileException {
+    public boolean canCompile(CodingQuestionDTO codingQuestionDTO) {
         try {
             compiler.addClass(codingQuestionDTO.getCode());
             compiler.addClass(codingQuestionDTO.getTest());
             return compiler.compile();
         } catch (Exception e) {
+            LOGGER.warn(e.getMessage(), e);
             throw new CanNotCompileException(e.getMessage());
         } finally {
             compiler.clear();

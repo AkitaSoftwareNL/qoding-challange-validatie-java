@@ -7,11 +7,11 @@ public class CanNotCompileException extends CustomException {
     public static final String MESSAGE = "Can not compile code";
 
     public CanNotCompileException() {
-        super(MESSAGE);
+        this(MESSAGE);
     }
 
     public CanNotCompileException(String details) {
-        super(MESSAGE, details);
+        this(MESSAGE, details);
     }
 
     public CanNotCompileException(String details, String nextActions) {
